@@ -11,7 +11,7 @@ import {
   Platform
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Camera, ImageIcon, Upload, X } from 'lucide-react-native';
+import { Camera, Image as ImageIcon, Upload, X } from 'lucide-react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { FirebaseService } from '../../services/firebaseService';
 
