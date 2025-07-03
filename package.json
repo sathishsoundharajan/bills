@@ -1,7 +1,7 @@
 {
   "name": "bills",
   "version": "1.0.0",
-  "main": "expo/AppEntry.js",
+  "main": "expo-router/entry",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
@@ -10,24 +10,28 @@
   },
   "dependencies": {
     "@expo/vector-icons": "^14.0.0",
-    "@react-navigation/bottom-tabs": "^6.5.11",
-    "@react-navigation/native": "^6.1.9",
-    "expo": "^53.0.16",
+    "expo": "~52.0.30",
     "expo-camera": "~16.1.10",
     "expo-constants": "~17.1.6",
     "expo-image-picker": "~16.1.4",
     "expo-media-library": "~17.1.7",
+    "expo-router": "~4.0.17",
     "expo-status-bar": "~2.2.3",
     "firebase": "^10.7.1",
+    "lucide-react-native": "^0.460.0",
     "react": "19.0.0",
     "react-native": "0.79.5",
     "react-native-chart-kit": "^6.12.0",
+    "react-native-gesture-handler": "~2.20.2",
+    "react-native-reanimated": "~3.16.1",
     "react-native-safe-area-context": "5.4.0",
     "react-native-screens": "~4.11.1",
     "react-native-svg": "15.11.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.25.2"
+    "@babel/core": "^7.25.2",
+    "@types/react": "~19.0.0",
+    "typescript": "~5.3.3"
   },
   "private": true
 }

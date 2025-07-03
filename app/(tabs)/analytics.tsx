@@ -9,12 +9,13 @@ import {
   ActivityIndicator,
   Dimensions
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { BarChart, PieChart } from 'react-native-chart-kit';
-import { FirebaseService } from '../services/firebaseService';
+import { FirebaseService } from '../../services/firebaseService';
 
 const screenWidth = Dimensions.get('window').width;
 
-export default function VisualizationScreen() {
+export default function AnalyticsScreen() {
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [analytics, setAnalytics] = useState(null);
@@ -73,19 +74,19 @@ export default function VisualizationScreen() {
 
   if (loading) {
     return (
-      <View style={styles.loadingContainer}>
+      <SafeAreaView style={styles.loadingContainer}>
         <ActivityIndicator size="large" color="#2563eb" />
         <Text style={styles.loadingText}>Loading analytics...</Text>
-      </View>
+      </SafeAreaView>
     );
   }
 
   if (error && !analytics) {
     return (
-      <View style={styles.errorContainer}>
+      <SafeAreaView style={styles.errorContainer}>
         <Text style={styles.errorText}>Failed to load analytics</Text>
         <Text style={styles.errorSubtext}>{error}</Text>
-      </View>
+      </SafeAreaView>
     );
   }
 
@@ -108,56 +109,58 @@ export default function VisualizationScreen() {
   }));
 
   return (
-    <ScrollView
-      style={styles.container}
-      refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-      }
-    >
-      <View style={styles.content}>
-        <Text style={styles.title}>Analytics</Text>
+    <SafeAreaView style={styles.container}>
+      <ScrollView
+        style={styles.scrollView}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
+        <View style={styles.content}>
+          <Text style={styles.title}>Analytics</Text>
 
-        {/* Monthly Spending Chart */}
-        <View style={styles.chartContainer}>
-          <Text style={styles.chartTitle}>Monthly Spending Trends</Text>
-          {monthlyData.length > 0 ? (
-            <BarChart
-              data={barChartData}
-              width={screenWidth - 32}
-              height={220}
-              chartConfig={chartConfig}
-              style={styles.chart}
-              verticalLabelRotation={30}
-            />
-          ) : (
-            <View style={styles.noDataContainer}>
-              <Text style={styles.noDataText}>No spending data available</Text>
-            </View>
-          )}
-        </View>
+          {/* Monthly Spending Chart */}
+          <View style={styles.chartContainer}>
+            <Text style={styles.chartTitle}>Monthly Spending Trends</Text>
+            {monthlyData.length > 0 ? (
+              <BarChart
+                data={barChartData}
+                width={screenWidth - 32}
+                height={220}
+                chartConfig={chartConfig}
+                style={styles.chart}
+                verticalLabelRotation={30}
+              />
+            ) : (
+              <View style={styles.noDataContainer}>
+                <Text style={styles.noDataText}>No spending data available</Text>
+              </View>
+            )}
+          </View>
 
-        {/* Category Breakdown Chart */}
-        <View style={styles.chartContainer}>
-          <Text style={styles.chartTitle}>Spending by Category</Text>
-          {categoryData.length > 0 ? (
-            <PieChart
-              data={pieChartData}
-              width={screenWidth - 32}
-              height={220}
-              chartConfig={chartConfig}
-              accessor="population"
-              backgroundColor="transparent"
-              paddingLeft="15"
-              style={styles.chart}
-            />
-          ) : (
-            <View style={styles.noDataContainer}>
-              <Text style={styles.noDataText}>No category data available</Text>
-            </View>
-          )}
+          {/* Category Breakdown Chart */}
+          <View style={styles.chartContainer}>
+            <Text style={styles.chartTitle}>Spending by Category</Text>
+            {categoryData.length > 0 ? (
+              <PieChart
+                data={pieChartData}
+                width={screenWidth - 32}
+                height={220}
+                chartConfig={chartConfig}
+                accessor="population"
+                backgroundColor="transparent"
+                paddingLeft="15"
+                style={styles.chart}
+              />
+            ) : (
+              <View style={styles.noDataContainer}>
+                <Text style={styles.noDataText}>No category data available</Text>
+              </View>
+            )}
+          </View>
         </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
@@ -165,6 +168,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#f8fafc',
+  },
+  scrollView: {
+    flex: 1,
   },
   content: {
     padding: 16,

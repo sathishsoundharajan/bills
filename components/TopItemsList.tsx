@@ -1,8 +1,19 @@
 import React from 'react';
 import { View, Text, StyleSheet, FlatList } from 'react-native';
 
-export default function TopItemsList({ items, type }) {
-  const renderItem = ({ item, index }) => (
+interface Item {
+  name: string;
+  quantity?: number;
+  total?: number;
+}
+
+interface TopItemsListProps {
+  items: Item[];
+  type: 'items' | 'categories';
+}
+
+export default function TopItemsList({ items, type }: TopItemsListProps) {
+  const renderItem = ({ item, index }: { item: Item; index: number }) => (
     <View style={styles.item}>
       <View style={styles.rank}>
         <Text style={styles.rankText}>{index + 1}</Text>
@@ -14,7 +25,7 @@ export default function TopItemsList({ items, type }) {
         <Text style={styles.details}>
           {type === 'items' 
             ? `Qty: ${item.quantity}` 
-            : `$${item.total.toFixed(2)}`
+            : `$${item.total?.toFixed(2)}`
           }
         </Text>
       </View>

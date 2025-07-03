@@ -8,9 +8,10 @@ import {
   Alert,
   ActivityIndicator
 } from 'react-native';
-import { FirebaseService } from '../services/firebaseService';
-import DashboardCard from '../components/DashboardCard';
-import TopItemsList from '../components/TopItemsList';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { FirebaseService } from '../../services/firebaseService';
+import DashboardCard from '../../components/DashboardCard';
+import TopItemsList from '../../components/TopItemsList';
 
 export default function HomeScreen() {
   const [loading, setLoading] = useState(true);
@@ -49,67 +50,69 @@ export default function HomeScreen() {
 
   if (loading) {
     return (
-      <View style={styles.loadingContainer}>
+      <SafeAreaView style={styles.loadingContainer}>
         <ActivityIndicator size="large" color="#2563eb" />
         <Text style={styles.loadingText}>Loading dashboard...</Text>
-      </View>
+      </SafeAreaView>
     );
   }
 
   if (error && !analytics) {
     return (
-      <View style={styles.errorContainer}>
+      <SafeAreaView style={styles.errorContainer}>
         <Text style={styles.errorText}>Failed to load data</Text>
         <Text style={styles.errorSubtext}>{error}</Text>
-      </View>
+      </SafeAreaView>
     );
   }
 
   return (
-    <ScrollView
-      style={styles.container}
-      refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-      }
-    >
-      <View style={styles.content}>
-        <Text style={styles.title}>Dashboard</Text>
-        
-        {/* Summary Cards */}
-        <View style={styles.cardsContainer}>
-          <DashboardCard
-            title="Total Receipts"
-            value={analytics?.totalReceipts || 0}
-            icon="receipt-outline"
-            color="#10b981"
-          />
-          <DashboardCard
-            title="Total Spent"
-            value={`$${(analytics?.totalSpent || 0).toFixed(2)}`}
-            icon="cash-outline"
-            color="#f59e0b"
-          />
-        </View>
+    <SafeAreaView style={styles.container}>
+      <ScrollView
+        style={styles.scrollView}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
+        <View style={styles.content}>
+          <Text style={styles.title}>Dashboard</Text>
+          
+          {/* Summary Cards */}
+          <View style={styles.cardsContainer}>
+            <DashboardCard
+              title="Total Receipts"
+              value={analytics?.totalReceipts || 0}
+              icon="receipt-outline"
+              color="#10b981"
+            />
+            <DashboardCard
+              title="Total Spent"
+              value={`$${(analytics?.totalSpent || 0).toFixed(2)}`}
+              icon="cash-outline"
+              color="#f59e0b"
+            />
+          </View>
 
-        {/* Top Items */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Top 10 Items Purchased</Text>
-          <TopItemsList 
-            items={analytics?.topItems || []} 
-            type="items"
-          />
-        </View>
+          {/* Top Items */}
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Top 10 Items Purchased</Text>
+            <TopItemsList 
+              items={analytics?.topItems || []} 
+              type="items"
+            />
+          </View>
 
-        {/* Top Categories */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Top 5 Spending Categories</Text>
-          <TopItemsList 
-            items={analytics?.topCategories || []} 
-            type="categories"
-          />
+          {/* Top Categories */}
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Top 5 Spending Categories</Text>
+            <TopItemsList 
+              items={analytics?.topCategories || []} 
+              type="categories"
+            />
+          </View>
         </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
@@ -117,6 +120,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#f8fafc',
+  },
+  scrollView: {
+    flex: 1,
   },
   content: {
     padding: 16,

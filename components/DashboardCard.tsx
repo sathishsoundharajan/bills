@@ -1,12 +1,21 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { Receipt, DollarSign } from 'lucide-react-native';
 
-export default function DashboardCard({ title, value, icon, color }) {
+interface DashboardCardProps {
+  title: string;
+  value: string | number;
+  icon: string;
+  color: string;
+}
+
+export default function DashboardCard({ title, value, icon, color }: DashboardCardProps) {
+  const IconComponent = icon === 'receipt-outline' ? Receipt : DollarSign;
+
   return (
     <View style={styles.card}>
       <View style={styles.header}>
-        <Ionicons name={icon} size={24} color={color} />
+        <IconComponent size={24} color={color} />
       </View>
       <Text style={styles.value}>{value}</Text>
       <Text style={styles.title}>{title}</Text>

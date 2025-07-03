@@ -15,17 +15,28 @@ import { db, storage, functions } from '../config/firebase';
 
 export class FirebaseService {
   // Upload image to Firebase Storage
-  static async uploadReceiptImage(imageUri) {
+  static async uploadReceiptImage(imageUri: string) {
     try {
+      console.log('Starting upload for:', imageUri);
+      
       const response = await fetch(imageUri);
+      if (!response.ok) {
+        throw new Error(`Failed to fetch image: ${response.status}`);
+      }
+      
       const blob = await response.blob();
+      console.log('Image blob created, size:', blob.size);
       
       const timestamp = Date.now();
       const filename = `receipts/receipt_${timestamp}.jpg`;
       const storageRef = ref(storage, filename);
       
+      console.log('Uploading to:', filename);
       const snapshot = await uploadBytes(storageRef, blob);
+      console.log('Upload successful:', snapshot.ref.fullPath);
+      
       const downloadURL = await getDownloadURL(snapshot.ref);
+      console.log('Download URL obtained:', downloadURL);
       
       return {
         success: true,
@@ -36,7 +47,7 @@ export class FirebaseService {
       console.error('Error uploading image:', error);
       return {
         success: false,
-        error: error.message
+        error: error instanceof Error ? error.message : 'Unknown upload error'
       };
     }
   }
@@ -48,7 +59,7 @@ export class FirebaseService {
       const q = query(receiptsRef, orderBy('created_at', 'desc'));
       const querySnapshot = await getDocs(q);
       
-      const receipts = [];
+      const receipts: any[] = [];
       querySnapshot.forEach((doc) => {
         receipts.push({
           id: doc.id,
@@ -64,7 +75,7 @@ export class FirebaseService {
       console.error('Error fetching receipts:', error);
       return {
         success: false,
-        error: error.message
+        error: error instanceof Error ? error.message : 'Unknown error'
       };
     }
   }
@@ -83,7 +94,7 @@ export class FirebaseService {
       console.error('Error fetching analytics:', error);
       return {
         success: false,
-        error: error.message
+        error: error instanceof Error ? error.message : 'Unknown error'
       };
     }
   }
@@ -99,7 +110,7 @@ export class FirebaseService {
       );
       const querySnapshot = await getDocs(q);
       
-      const receipts = [];
+      const receipts: any[] = [];
       querySnapshot.forEach((doc) => {
         receipts.push({
           id: doc.id,
@@ -115,7 +126,7 @@ export class FirebaseService {
       console.error('Error fetching recent receipts:', error);
       return {
         success: false,
-        error: error.message
+        error: error instanceof Error ? error.message : 'Unknown error'
       };
     }
   }

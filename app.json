@@ -6,6 +6,7 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
+    "scheme": "receipt-tracker",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -33,7 +34,8 @@
       ]
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "output": "server"
     },
     "plugins": [
       [
@@ -47,7 +49,8 @@
         {
           "photosPermission": "The app accesses your photos to let you select receipt images."
         }
-      ]
+      ],
+      "expo-router"
     ]
   }
 }
