@@ -17,6 +17,9 @@ if (!getApps().length) {
 const db = getFirestore();
 // Function to retrieve Vision service account from Secret Manager
 
+// Import analytics function
+const {getReceiptAnalytics} = require("./analytics");
+
 const secretManagerClient = new SecretManagerServiceClient();
 
 async function getVisionCredentials() {
@@ -185,3 +188,5 @@ exports.processReceipt = onObjectFinalized(
       }
     },
 );
+
+exports.getReceiptAnalytics = getReceiptAnalytics;
