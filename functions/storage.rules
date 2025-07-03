@@ -1,0 +1,9 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /receipts/{imageId} {
+      allow write: if true; // Allow mobile app to upload images
+      allow read: if false; // Restrict read to Cloud Functions
+    }
+  }
+}
