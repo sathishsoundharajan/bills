@@ -42,7 +42,7 @@ exports.getReceiptAnalytics = onCall(
             receipt.items.forEach((item) => {
               const name = item.general_name || item.description || "Unknown";
               const qty = item.qty || 1;
-
+              
               if (itemCounts[name]) {
                 itemCounts[name] += qty;
               } else {
@@ -64,7 +64,7 @@ exports.getReceiptAnalytics = onCall(
             receipt.items.forEach((item) => {
               const tags = item.tags || ["other"];
               const price = item.price || 0;
-
+              
               tags.forEach((tag) => {
                 if (categoryTotals[tag]) {
                   categoryTotals[tag] += price;
@@ -87,7 +87,7 @@ exports.getReceiptAnalytics = onCall(
           if (receipt.date) {
             const date = new Date(receipt.date);
             const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
-
+            
             if (monthlyTotals[monthKey]) {
               monthlyTotals[monthKey] += receipt.total || 0;
             } else {

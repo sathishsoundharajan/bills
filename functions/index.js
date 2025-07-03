@@ -10,6 +10,9 @@ const {GoogleGenAI} = require("@google/genai");
 
 const {SecretManagerServiceClient} = require("@google-cloud/secret-manager");
 
+// Import analytics function
+const {getReceiptAnalytics} = require("./analytics");
+
 // Initialize Firebase Admin
 if (!getApps().length) {
   initializeApp();
@@ -189,4 +192,5 @@ exports.processReceipt = onObjectFinalized(
     },
 );
 
+// Export analytics function
 exports.getReceiptAnalytics = getReceiptAnalytics;
